@@ -11,11 +11,11 @@
 @implementation IPCheckerAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application 
+	[self activateStatusMenu]; 
 }
 
 // Setting up status item and menu for it
-- (void)activateStatusMenu {
+-(void)activateStatusMenu {
 	// Creating menu items
 	menuItem = [[NSMenuItem alloc] initWithTitle:@"Public IP address" action:@selector(copyIPAddress:) keyEquivalent:@""];
 	NSMenuItem *separator = [NSMenuItem separatorItem];
@@ -37,6 +37,22 @@
     [statusItem setTitle: NSLocalizedString(@"IPChecker",@"")];
     [statusItem setHighlightMode:YES];
     [statusItem setMenu:menu];
+}
+
+// Copying value of menu item to clipboard
+-(void)copyIPAddress:(id)sender {
+	NSLog(@"Copying IP...");
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	[pasteboard clearContents];
+	
+	NSArray *objectsToCopy = [[NSArray alloc] initWithObjects:[menuItem title], nil];
+	[pasteboard writeObjects:objectsToCopy];
+}
+
+// Sending message to quit application
+-(void)quit:(id)sender {
+	NSLog(@"Quiting application");
+	[[NSApplication sharedApplication] terminate:nil];
 }
 
 @end

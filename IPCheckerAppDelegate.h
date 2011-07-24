@@ -14,4 +14,8 @@
 	NSMenu *menu;
 }
 
+-(void)activateStatusMenu;
+-(void)copyIPAddress:(id)sender;
+-(void)quit:(id)sender;
+
 @end
