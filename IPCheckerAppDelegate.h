@@ -8,8 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface IPCheckerAppDelegate : NSObject <NSApplicationDelegate> {
-	
+@interface IPCheckerAppDelegate : NSObject <NSApplicationDelegate, NSMenuDelegate> {
+	NSStatusItem *statusItem;
+	NSMenuItem *menuItem;
+	NSMenu *menu;
 }
 
 @end
