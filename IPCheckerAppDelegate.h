@@ -12,6 +12,8 @@
 	NSStatusItem *statusItem;
 	NSMenuItem *menuItem;
 	NSMenu *menu;
+
+	NSThread *thread;
 }
 
 -(void)activateStatusMenu;

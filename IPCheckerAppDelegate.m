@@ -34,7 +34,7 @@
     statusItem = [systemBar statusItemWithLength:NSVariableStatusItemLength];
     [statusItem retain];
 	
-    [statusItem setTitle: NSLocalizedString(@"IPChecker",@"")];
+    [statusItem setTitle: NSLocalizedString(@"IP",@"")];
     [statusItem setHighlightMode:YES];
     [statusItem setMenu:menu];
 }
@@ -53,6 +53,50 @@
 -(void)quit:(id)sender {
 	NSLog(@"Quiting application");
 	[[NSApplication sharedApplication] terminate:nil];
+}
+
+// checking IP address
+-(void)updateIPAddress {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSURL *url = [NSURL URLWithString:@"http://highearthorbit.com/service/myip.php"];
+	
+	NSURLRequest *request = [NSURLRequest requestWithURL:url 
+											 cachePolicy:NSURLRequestReloadIgnoringCacheData 
+										 timeoutInterval:30];
+	
+	NSData *responseData = [NSURLConnection sendSynchronousRequest:request 
+												 returningResponse:nil 
+															 error:nil];
+	
+	NSString *string = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+	
+	[self performSelectorOnMainThread:@selector(updateMenuItem:) withObject:string waitUntilDone:NO];
+	
+	[pool release];
+	
+	[thread release];
+	thread = nil;
+}
+
+// update menu item with new value
+- (void)updateMenuItem:(NSString *)newIP {
+	[menuItem setTitle:newIP];
+	[menuItem setEnabled:YES];
+}
+
+// delegate method of NSMenu
+-(void)menuWillOpen:(NSMenu *)menu {
+	NSLog(@"Opening menu");
+	
+	[menuItem setEnabled:NO];
+	[menuItem setTitle:@"Checking..."];
+	
+	if((thread != nil && ![thread isExecuting]) || thread == nil) {
+		[thread release];
+		thread = [[NSThread alloc] initWithTarget:self selector:@selector(updateIPAddress) object:nil];
+		[thread start];
+	}
 }
 
 @end
