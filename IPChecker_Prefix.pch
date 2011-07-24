@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'IPChecker' target in the 'IPChecker' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
