@@ -11,7 +11,8 @@
 @implementation IPCheckerAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[self activateStatusMenu]; 
+	[self activateStatusMenu];
+	NSLog(@"Local IP: %@", [[NSHost currentHost] addresses]);
 }
 
 // Setting up status item and menu for it
@@ -34,7 +35,9 @@
     statusItem = [systemBar statusItemWithLength:NSVariableStatusItemLength];
     [statusItem retain];
 	
-    [statusItem setTitle: NSLocalizedString(@"IP",@"")];
+	
+    //[statusItem setTitle: NSLocalizedString(@"IP",@"")];
+	[statusItem setImage:[NSImage imageNamed:@"ip_icon"]];
     [statusItem setHighlightMode:YES];
     [statusItem setMenu:menu];
 }

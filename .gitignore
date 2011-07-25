@@ -5,5 +5,7 @@
 !*.xcodeproj/project.pbxproj
 build/*
 
+psds/*
+
 # OS X noise
 .DS_Store
